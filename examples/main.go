@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	eureka "github.com/xuanbo/eureka-client"
+	eureka "github.com/meshware/eureka-client"
 )
 
 func main() {

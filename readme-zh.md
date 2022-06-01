@@ -27,7 +27,7 @@ import (
 	"fmt"
 	"net/http"
 
-	eureka "github.com/xuanbo/eureka-client"
+	eureka "github.com/meshware/eureka-client"
 )
 
 func main() {
@@ -82,4 +82,4 @@ func main() {
 
 代码如下:
 
-[spring-cloud-v2](https://github.com/xuanbo/spring-cloud-v2)
+[spring-cloud-v2](https://github.com/meshware/spring-cloud-v2)

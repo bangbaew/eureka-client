@@ -130,7 +130,7 @@ func (c *Client) handleSignal() {
 		c.signalChan = make(chan os.Signal)
 	}
 	signal.Notify(c.signalChan, syscall.SIGTERM, syscall.SIGINT, syscall.SIGKILL)
-	for {
+	for c.running {
 		switch <-c.signalChan {
 		case syscall.SIGINT:
 			fallthrough
@@ -151,7 +151,7 @@ func (c *Client) handleSignal() {
 
 // NewClient 创建客户端
 func NewClient(config *Config, opts ...Option) *Client {
-	defaultConfig(config)
+	DefaultConfig(config)
 	instance := NewInstance(config)
 	client := &Client{
 		logger:   NewLogger(),
@@ -164,7 +164,7 @@ func NewClient(config *Config, opts ...Option) *Client {
 	return client
 }
 
-func defaultConfig(config *Config) {
+func DefaultConfig(config *Config) {
 	if config.DefaultZone == "" {
 		config.DefaultZone = "http://localhost:8761/eureka/"
 	}
