@@ -32,15 +32,21 @@ func Register(zone, app string, instance *Instance) error {
 
 	// status: http.StatusNoContent
 	result := requests.Post(u).Json(info).Send().Status2xx()
+	if result.Err == nil {
+		instance.Beater.AddBeatInfo(app, instance)
+	}
 	return result.Err
 }
 
 // UnRegister 删除实例
 // DELETE /eureka/v2/apps/appID/instanceID
-func UnRegister(zone, app, instanceID string) error {
-	u := zone + "apps/" + app + "/" + instanceID
+func UnRegister(zone, app string, instance *Instance) error {
+	u := zone + "apps/" + app + "/" + instance.InstanceID
 	// status: http.StatusNoContent
 	result := requests.Delete(u).Send().StatusOk()
+	if result.Err == nil && instance.Beater != nil {
+		instance.Beater.RemoveBeatInfo(app, instance.InstanceID)
+	}
 	return result.Err
 }
 

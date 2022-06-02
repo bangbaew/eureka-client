@@ -50,7 +50,7 @@ func (c *Client) Start() {
 // refresh 刷新服务列表
 func (c *Client) refresh() {
 	timer := time.NewTimer(0)
-	interval := time.Duration(c.Config.RenewalIntervalInSecs) * time.Second
+	interval := time.Duration(c.Config.RegistryFetchIntervalSeconds) * time.Second
 	for c.running {
 		select {
 		case <-timer.C:
@@ -70,7 +70,7 @@ func (c *Client) refresh() {
 // heartbeat 心跳
 func (c *Client) heartbeat() {
 	timer := time.NewTimer(0)
-	interval := time.Duration(c.Config.RegistryFetchIntervalSeconds) * time.Second
+	interval := time.Duration(c.Config.RenewalIntervalInSecs) * time.Second
 	for c.running {
 		select {
 		case <-timer.C:
