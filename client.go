@@ -101,7 +101,7 @@ func (c *Client) doRegister() error {
 }
 
 func (c *Client) doUnRegister() error {
-	return UnRegister(c.Config.DefaultZone, c.Instance.App, c.Instance.InstanceID)
+	return UnRegister(c.Config.DefaultZone, c.Instance.App, c.Instance)
 }
 
 func (c *Client) doHeartbeat() error {

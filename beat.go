@@ -10,36 +10,36 @@ import (
 )
 
 type BeatReactor struct {
-	config              *Config
-	beatMap             ConcurrentMap
-	clientBeatInterval  int64
-	beatThreadCount     int
-	beatThreadSemaphore *semaphore.Weighted
-	beatRecordMap       ConcurrentMap
-	mux                 *sync.Mutex
-	log                 Logger
-	Period              time.Duration
+	config                   *Config
+	beatMap                  ConcurrentMap
+	clientBeatIntervalInSecs int64
+	beatThreadCount          int
+	beatThreadSemaphore      *semaphore.Weighted
+	beatRecordMap            ConcurrentMap
+	mux                      *sync.Mutex
+	log                      Logger
+	Period                   time.Duration
 }
 
 const DefaultBeatThreadNum = 20
 
 var ctx = context.Background()
 
-func NewBeatReactor(config *Config, clientBeatInterval int64) BeatReactor {
+func NewBeatReactor(config *Config, clientBeatIntervalInSecs int64) BeatReactor {
 	br := BeatReactor{
 		config: config,
 	}
-	if clientBeatInterval <= 0 {
-		clientBeatInterval = 5 * 1000
+	if clientBeatIntervalInSecs <= 0 {
+		clientBeatIntervalInSecs = 5
 	}
 	br.beatMap = NewConcurrentMap()
-	br.clientBeatInterval = clientBeatInterval
+	br.clientBeatIntervalInSecs = clientBeatIntervalInSecs
 	br.beatThreadCount = DefaultBeatThreadNum
 	br.beatRecordMap = NewConcurrentMap()
 	br.beatThreadSemaphore = semaphore.NewWeighted(int64(br.beatThreadCount))
 	br.mux = new(sync.Mutex)
 	br.log = NewLogger()
-	br.Period = time.Duration(time.Millisecond.Milliseconds() * clientBeatInterval)
+	br.Period = time.Duration(clientBeatIntervalInSecs) * time.Second
 	return br
 }
 
