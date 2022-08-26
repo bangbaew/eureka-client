@@ -67,6 +67,20 @@ func (c *Client) refresh() {
 	timer.Stop()
 }
 
+func (c *Client) ConnectDetection() error {
+	err := c.doHeartbeat()
+	if err == nil {
+		c.logger.Debug("heartbeat application instance successful")
+		return nil
+	} else if err == ErrNotFound {
+		// heartbeat not found, need register
+		return nil
+	} else {
+		c.logger.Error("heartbeat application instance failed", err)
+		return err
+	}
+}
+
 // heartbeat 心跳
 func (c *Client) heartbeat() {
 	timer := time.NewTimer(0)
