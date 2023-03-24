@@ -133,6 +133,7 @@ func NewInstance(config *Config) *Instance {
 	}
 	instance.HomePageURL = fmt.Sprintf("http://%s:%d", config.IP, config.Port)
 	instance.StatusPageURL = fmt.Sprintf("http://%s:%d/info", config.IP, config.Port)
+	instance.HealthCheckURL = fmt.Sprintf("http://%s:%d/health", config.IP, config.Port)
 	instance.EurekaConfig = config
 	beater := NewBeatReactor(config, int64(config.RenewalIntervalInSecs))
 	instance.Beater = &beater
